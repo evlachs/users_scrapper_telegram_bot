@@ -14,6 +14,7 @@ async def on_startup(dispatcher):
     await client.start()
     loop = asyncio.get_event_loop()
     loop.create_task(launch_inviting())
+    await dp.bot.delete_webhook()
     await dp.bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 
 
