@@ -5,11 +5,15 @@ from aiogram import executor
 from loader import dp, client
 from utils import set_default_commands, launch_inviting
 from conf import WEBHOOK_URL, WEBHOOK_PATH, WEBAPP_PORT, WEBAPP_HOST
+
 import handlers
 
 
 async def on_startup(dispatcher):
-    """Sets default commands for the bot, initializes the client, launches the loop with the invite_users function"""
+    """
+    Sets default commands for the bot, initializes the client, launches the loop with the invite_users function
+    and sets webhook
+    """
     await set_default_commands(dispatcher)
     await client.start()
     loop = asyncio.get_event_loop()
@@ -17,9 +21,6 @@ async def on_startup(dispatcher):
     await dp.bot.delete_webhook()
     await dp.bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 
-
-async def on_shutdown(dispatcher):
-    await dp.bot.delete_webhook()
 
 if __name__ == '__main__':
     executor.start_webhook(
