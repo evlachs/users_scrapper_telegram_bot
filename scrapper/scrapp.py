@@ -82,7 +82,7 @@ class UsersScrapper:
         :return: a list consisting of the usernames of the group members
         """
         new_users = []
-        participants = await self.client.get_participants(target_group, limit=1000)
+        participants = await self.client.get_participants(target_group, limit=200)
         df = pd.read_csv('data/users.csv')
         for user in participants:
             if user.username and f'@{user.username}' not in list(df['username']):
