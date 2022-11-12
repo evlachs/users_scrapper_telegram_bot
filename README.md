@@ -18,9 +18,9 @@ $ pip install -r requirements.txt
 ```Python
 from telethon.sync import TelegramClient
 
-phone: str = '+phone'  # enter your number here starting with +
-api_id: int = 'api_id'  # enter your api_id from the telegram application configuration
-api_hash: str = 'api_hash'  # enter your api_hash from the telegram application configuration
+phone = '+phone'  # enter your number here starting with +
+api_id = 00000000  # enter your api_id from the telegram application configuration
+api_hash = 'api_hash'  # enter your api_hash from the telegram application configuration
 
 client = TelegramClient(phone, api_id, api_hash)
 
@@ -29,8 +29,7 @@ client.start()
 5. запустите make_session.py
 ```
 $ python make_session.py
-```
-```
+
 Please enter your phone (or bot token): your phone but without +
 Please enter the code you received: code
 ```
@@ -39,8 +38,7 @@ Please enter the code you received: code
 7. авторизируйтесь в своем аккаунте heroku    
 ```
 $ heroku login
-```
-```
+
 heroku: Press any key to open up the browser to login or q to exit:
 Opening browser to https://cli-auth.heroku.com/auth/cli/browser/...
 heroku: Waiting for login...
