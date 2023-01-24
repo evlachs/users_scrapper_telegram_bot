@@ -36,3 +36,6 @@ class Database:
         }[type(d)])
         (d, **kw)
     )
+
+    def get_users_db_fname(self):
+        return self._users_csv_fname
