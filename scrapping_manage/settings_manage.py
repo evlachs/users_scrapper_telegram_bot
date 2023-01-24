@@ -1,5 +1,7 @@
 import pandas as pd
 
+from conf.config import SETTING_CSV
+
 
 class SettingsManage:
     """
@@ -13,8 +15,10 @@ class SettingsManage:
         .. notes:: methods of this class work directly with a scrapping_settings.csv file
         without changing or setting attribute values inside the class
     """
-    def __init__(self):
-        self.df = pd.read_csv('data/scrapping_settings.csv')
+
+    def __init__(self, setting_csv=SETTING_CSV):
+        self.setting_csv = setting_csv
+        self.df = pd.read_csv(setting_csv)
 
     @property
     def delay(self) -> int:
@@ -24,7 +28,7 @@ class SettingsManage:
     @delay.setter
     def delay(self, value: int) -> None:
         self.df.loc[0, 'delay'] = value
-        self.df.to_csv('data/scrapping_settings.csv', index=False)
+        self.df.to_csv(self.setting_csv, index=False)
 
     @property
     def launch_time(self) -> str:
@@ -34,7 +38,7 @@ class SettingsManage:
     @launch_time.setter
     def launch_time(self, value: str) -> None:
         self.df.loc[0, 'launch_time'] = value
-        self.df.to_csv('data/scrapping_settings.csv', index=False)
+        self.df.to_csv(self.setting_csv, index=False)
 
     @property
     def scrapping_status(self) -> bool:
@@ -44,7 +48,7 @@ class SettingsManage:
     @scrapping_status.setter
     def scrapping_status(self, value: bool) -> None:
         self.df.loc[0, 'scrapping_status'] = value
-        self.df.to_csv('data/scrapping_settings.csv', index=False)
+        self.df.to_csv(self.setting_csv, index=False)
 
     @property
     def active_group(self) -> str:
@@ -54,7 +58,7 @@ class SettingsManage:
     @active_group.setter
     def active_group(self, value: str) -> None:
         self.df.loc[0, 'active_group'] = value
-        self.df.to_csv('data/scrapping_settings.csv', index=False)
+        self.df.to_csv(self.setting_csv, index=False)
 
     @property
     def active_channel(self) -> str:
@@ -64,7 +68,7 @@ class SettingsManage:
     @active_channel.setter
     def active_channel(self, value: str) -> None:
         self.df.loc[0, 'active_channel'] = value
-        self.df.to_csv('data/scrapping_settings.csv', index=False)
+        self.df.to_csv(self.setting_csv, index=False)
 
     @property
     def limit(self) -> int:
@@ -74,4 +78,4 @@ class SettingsManage:
     @limit.setter
     def limit(self, value: int) -> None:
         self.df.loc[0, 'limit'] = value
-        self.df.to_csv('data/scrapping_settings.csv', index=False)
+        self.df.to_csv(self.setting_csv, index=False)

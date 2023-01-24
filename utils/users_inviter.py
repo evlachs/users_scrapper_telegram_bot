@@ -11,8 +11,9 @@ from loader import bot, client
 from keyboards import settings_launch_keyboard
 from scrapper import UsersScrapper
 from scrapping_manage import SettingsManage
+from utils.loggy import log
 
-
+@log
 async def message_mailing(message: str, keyboard: Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]) -> None:
     """
     Sends a message to the client about the start of scrapping or its termination
@@ -32,7 +33,7 @@ async def message_mailing(message: str, keyboard: Union[InlineKeyboardMarkup, Re
                 reply_markup=keyboard
             )
 
-
+@log
 async def invite_users(sm: SettingsManage) -> None:
     """
     Collects users from the group selected by the client and invites them to the specified channel,
@@ -41,6 +42,11 @@ async def invite_users(sm: SettingsManage) -> None:
     await message_mailing(MESSAGES['scrapping_started'], settings_launch_keyboard())
     us = UsersScrapper(client)
     target_group = sm.active_group
+    task_descr = lambda: (f"from {target_group} to {us.get_users_db_fname()} "
+                          f"(limit={sm.limit}; launch_time={sm.launch_time})"
+                          )
+    await message_mailing(f"{MESSAGES['scrapping_started']}: {task_descr()}:..",
+                          settings_launch_keyboard())
     groups = await us.get_groups()
     participants = await us.get_chat_participants(groups[target_group])
     us.save_new_users_to_csv(participants)
@@ -55,9 +61,12 @@ async def invite_users(sm: SettingsManage) -> None:
         us.update_users_status(invited_users)
     if not sm.launch_time:
         sm.scrapping_status = False
-    await message_mailing(MESSAGES['scrapping_stopped'], settings_launch_keyboard())
+    await message_mailing(f"{MESSAGES['scrapping_stopped']}: {task_descr()}: "
+                          f"len(to_invite)={len(to_invite)}; invited users: {invited_users};..",
+                          settings_launch_keyboard())
 
 
+@log
 async def launch_inviting() -> None:
     while True:
         now = datetime.now().strftime('%H:%M')
